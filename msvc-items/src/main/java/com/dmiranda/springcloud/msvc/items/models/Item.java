@@ -1,5 +1,7 @@
 package com.dmiranda.springcloud.msvc.items.models;
 
+import com.dmiranda.libs.msvc.commons.entities.Product;
+
 public class Item {
 
     private Product product;
