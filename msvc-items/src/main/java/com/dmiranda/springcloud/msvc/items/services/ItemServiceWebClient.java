@@ -10,7 +10,6 @@ import java.util.Random;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClient.Builder;
 
 import com.dmiranda.libs.msvc.commons.entities.Product;
 import com.dmiranda.springcloud.msvc.items.models.Item;
@@ -19,15 +18,15 @@ import com.dmiranda.springcloud.msvc.items.models.Item;
 @Service
 public class ItemServiceWebClient implements ItemService {
 
-    private final WebClient.Builder client;
+    private final WebClient client;
 
-    public ItemServiceWebClient(Builder client) {
+    public ItemServiceWebClient(WebClient client) {
         this.client = client;
     }
 
     @Override
     public List<Item> findAll() {
-        return this.client.build()
+        return this.client
                 .get()
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
@@ -42,7 +41,7 @@ public class ItemServiceWebClient implements ItemService {
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
         // try {
-            return Optional.of(client.build().get().uri("/{id}", params)
+            return Optional.of(client.get().uri("/{id}", params)
                     .accept(MediaType.APPLICATION_JSON)
                     .retrieve()
                     .bodyToMono(Product.class)
@@ -58,7 +57,7 @@ public class ItemServiceWebClient implements ItemService {
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
         client
-            .build()
+            
             .delete()
             .uri("/{id}", params)
             .retrieve()
@@ -70,7 +69,7 @@ public class ItemServiceWebClient implements ItemService {
     public Product save(Product product) {
         
         return client
-                .build()
+                
                 .post()
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue(product)
@@ -84,7 +83,7 @@ public class ItemServiceWebClient implements ItemService {
         Map<String, Long> params = new HashMap<>();
         params.put("id", id);
         return client
-                .build()
+                
                 .put()
                 .uri("/{id}", params)
                 .accept(MediaType.APPLICATION_JSON)
